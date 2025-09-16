@@ -10,6 +10,14 @@ namespace AktiehandelRepositoryLib
 		public int Antal { get; set; }
 		public double HandelsPris { get; set; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="handelsID"></param>
+		/// <param name="navn"></param>
+		/// <param name="antal"></param>
+		/// <param name="handelsPris"></param>
+		/// <exception cref="ArgumentException"></exception>
         public AktieHandel(int handelsID, string navn, int antal, double handelsPris)
         {
 			if (navn == null)
