@@ -111,6 +111,21 @@ namespace AktiehandelRepositoryLib
 				{
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(selectSql + " Order By @OrderBy Asc"))
+					{
+						command.Parameters.AddWithValue("@Orderby", orderBy);
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							List<AktieHandel> itemList = new List<AktieHandel>();
+							while (reader.Read())
+							{
+								string dataNavn = reader.GetString(1);
+								int dataAntal = reader.GetInt32(2);
+								double dataHandelspris = reader.GetDouble(3);
+								itemList.Add(new AktieHandel(dataNavn, dataAntal, dataHandelspris));
+							}
+							reader.Close();
+						}
+					}
 				}
 			}
 			catch (SqlException sqlEx)
@@ -138,8 +153,7 @@ namespace AktiehandelRepositoryLib
 								string navn = reader.GetString(1);
 								int antal = reader.GetInt32(2);
 								double handelspris = reader.GetDouble(3);
-								AktieHandel handelObject = new AktieHandel(navn, antal, handelspris);
-								handelList.Add(handelObject);
+								handelList.Add(new AktieHandel(navn, antal, handelspris));
 							}
 							reader.Close();
 						}
