@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AktiehandelRepositoryLib", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAktieHandelRepositoryLib", "TestAktieHandelRepositoryLib\TestAktieHandelRepositoryLib.csproj", "{013E46B6-9BE0-4D6D-8742-63A90F7FF4AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AktiehandelRepositoryConsole", "AktiehandelRepositoryConsole\AktiehandelRepositoryConsole.csproj", "{5BABB488-3D73-40CA-8F65-CDB7B2DE1873}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{013E46B6-9BE0-4D6D-8742-63A90F7FF4AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{013E46B6-9BE0-4D6D-8742-63A90F7FF4AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{013E46B6-9BE0-4D6D-8742-63A90F7FF4AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BABB488-3D73-40CA-8F65-CDB7B2DE1873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BABB488-3D73-40CA-8F65-CDB7B2DE1873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BABB488-3D73-40CA-8F65-CDB7B2DE1873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BABB488-3D73-40CA-8F65-CDB7B2DE1873}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@ namespace AktiehandelRepositoryLib
 	{
 		void Add(AktieHandel ah);
 		void Delete(int id);
-		IEnumerable<AktieHandel> Get(int? antal = null, string? orderBy = null);
+		IEnumerable<AktieHandel> GetByAntal(int? antal = null);
 		IEnumerable<AktieHandel> GetOrderBy(string? orderBy);
 		List<AktieHandel> GetAll();
 		AktieHandel GetById(int id);

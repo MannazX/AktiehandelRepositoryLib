@@ -1,0 +1,8 @@
+﻿CREATE TABLE Aktiehandel
+(
+	HandelsId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Navn NCHAR(10) NOT NULL,
+	Antal INT NOT NULL,
+	Handelspris DECIMAL(18, 0) NOT NULL
+)
+

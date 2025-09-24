@@ -12,9 +12,14 @@ namespace AktiehandelRepositoryLib
 	{
 		private string connectionString = Secret.ConnectionString;
 		private string selectSql = "Select HandelsId, Navn, Antal, Handelspris From Aktiehandel";
-		private string insertSql = "Insert Into Aktiehandel (HandelsId, Navn, Antal, Handelspris) Values (@HandelsId, @Navn, @Antal, @Handelspris)";
+		private string insertSql = "Insert Into Aktiehandel (Navn, Antal, Handelspris) Values (@Navn, @Antal, @Handelspris)";
 		private string deleteSql = "Delete from Aktiehandel Where HandelsId = @HandelsId";
 		private string updateSql = "Update Aktiehandel Set Navn = @Navn, Antal = @Antal, Handelspris = @Handelspris Where HandelsId = @HandelsId";
+
+		public AktieHandelRepositoryDB()
+		{
+			
+		}
 
 		public void Add(AktieHandel ah)
 		{
@@ -25,7 +30,6 @@ namespace AktiehandelRepositoryLib
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(insertSql, connection))
 					{
-						command.Parameters.AddWithValue("@HandelsId", ah.HandelsId);
 						command.Parameters.AddWithValue("@Navn", ah.Navn);
 						command.Parameters.AddWithValue("@Antal", ah.Antal);
 						command.Parameters.AddWithValue("@Handelspris", ah.HandelsPris);
@@ -46,19 +50,21 @@ namespace AktiehandelRepositoryLib
 		public void Delete(int id)
 		{
 			AktieHandel handel = GetById(id);
+			if (handel == null)
+			{
+				Console.WriteLine("Item was not found ");
+			}
 			try
 			{
 				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
+					SqlCommand command = new SqlCommand(deleteSql, connection);
+					command.Parameters.AddWithValue("@HandelsId", id);
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(deleteSql, connection))
+					int rowsAffected = command.ExecuteNonQuery();
+					if (rowsAffected == 0)
 					{
-						command.Parameters.AddWithValue("@HandelsId", id);
-						int rowsAffected = command.ExecuteNonQuery();
-						if (!(rowsAffected > 0))
-						{
-							throw new Exception("No rows affected");
-						}
+						Console.WriteLine("Item did not Delete");
 					}
 				}
 			}
@@ -174,15 +180,15 @@ namespace AktiehandelRepositoryLib
 			{
 				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
-					AktieHandel? aktieHandel = null;
-					SqlCommand command = new SqlCommand(selectSql + " Where HandelsId = @HandelsId");
+					SqlCommand command = new SqlCommand(selectSql + " Where HandelsId = @HandelsId", connection);
 					command.Connection.Open();
+					command.Parameters.AddWithValue("@HandelsId", id);
 					SqlDataReader reader = command.ExecuteReader();
-					if (reader.Read())
+					while (reader.Read())
 					{
-						string navn = reader.GetString(1);
-						int antal = reader.GetInt32(2);
-						double handelspris = reader.GetDouble(3);
+						string navn = reader.GetString(0);
+						int antal = reader.GetInt32(1);
+						double handelspris = reader.GetDouble(2);
 						handel = new AktieHandel(navn, antal, handelspris);
 					}
 					reader.Close();
@@ -198,7 +204,28 @@ namespace AktiehandelRepositoryLib
 
 		public void Update(int id, AktieHandel data)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(connectionString))
+				{
+					connection.Open();
+					using (SqlCommand command = new SqlCommand(updateSql, connection))
+					{
+						command.Parameters.AddWithValue("@Navn", data.Navn);
+						command.Parameters.AddWithValue("@Antal", data.Antal);
+						command.Parameters.AddWithValue("@Handelspris", data.HandelsPris);
+						int rowsAffected = command.ExecuteNonQuery();
+						if (!(rowsAffected > 0))
+						{
+							throw new Exception("No rows affected");
+						}
+					}
+				}
+			}
+			catch (SqlException sqlEx)
+			{
+				Console.WriteLine(sqlEx.Message);
+			}
 		}
 	}
 }
