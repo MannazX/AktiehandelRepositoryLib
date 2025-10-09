@@ -5,8 +5,9 @@ namespace AktiehandelRepositoryLib
 {
 	public class AktieHandel : IAktieHandel
 	{
-		public static int _handelsId = 0;
-		public int HandelsId { get { return _handelsId; } }
+		private static int _counter = 0;
+		private int _id;
+		public int HandelsId { get { return _id; } }
 		public string Navn { get; set; }
 		public int Antal { get; set; }
 		public double HandelsPris { get; set; }
@@ -28,10 +29,16 @@ namespace AktiehandelRepositoryLib
 			{
 				throw new ArgumentException("Navn kan ikke være midnre end fire tegn");
 			}
-			_handelsId++;
+			_counter++;
+			_id = _counter;
 			Navn = navn;
 			Antal = antal;
 			HandelsPris = handelsPris;
+		}
+
+		public override string ToString()
+		{
+			return $"Navn: {Navn}\nAntal: {Antal}\nHandelspris: {HandelsPris}";
 		}
 	}
 }

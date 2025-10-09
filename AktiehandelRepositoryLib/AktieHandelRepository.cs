@@ -17,14 +17,15 @@ namespace AktiehandelRepositoryLib
 
 		public AktieHandel GetById(int id)
 		{
+			AktieHandel item = null;
 			foreach (AktieHandel ah in _handelList)
 			{
 				if (ah.HandelsId == id)
 				{
-					return ah;
+					item = ah;
 				}
 			}
-			return null;
+			return item;
 		}
 
 		public List<AktieHandel> GetAll()
@@ -45,9 +46,9 @@ namespace AktiehandelRepositoryLib
 
 		public IEnumerable<AktieHandel> GetOrderBy(string? orderBy = null)
 		{
-			IEnumerable<AktieHandel> ahList = _handelList;
 			if (orderBy != null)
 			{
+				IEnumerable<AktieHandel> ahList = _handelList;
 				if (orderBy == "Navn")
 				{
 					ahList = ahList.OrderBy(x => x.Navn);
@@ -68,31 +69,30 @@ namespace AktiehandelRepositoryLib
 			}
 		}
 
-		public void Add(AktieHandel ah)
+		public AktieHandel Add(AktieHandel ah)
 		{
 			_handelList.Add(ah);
+			return ah;
 		}
 
-		public void Delete(int id)
+		public AktieHandel? Delete(int id)
 		{
 			AktieHandel found = GetById(id);
 			if (found != null)
 			{
 				_handelList.Remove(found);
 			}
+			return found;
 		}
 
-		public void Update(int id, AktieHandel data)
+		public AktieHandel Update(int id, AktieHandel data)
 		{
-			foreach (AktieHandel ah in _handelList)
-			{
-				if (ah.HandelsId == id)
-				{
-					ah.Navn = data.Navn;
-					ah.Antal = data.Antal;
-					ah.HandelsPris = data.HandelsPris;
-				}
-			}
+			AktieHandel item = GetById(id);
+			item.Navn = data.Navn;
+			item.Antal = data.Antal;
+			item.HandelsPris = data.HandelsPris;
+			_handelList[_handelList.IndexOf(item)] = item;
+			return item;
 		}
 	}
 }
