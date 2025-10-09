@@ -39,5 +39,3 @@ foreach (AktieHandel item in itemListOrdered)
 }
 
 Console.WriteLine();
-
-
